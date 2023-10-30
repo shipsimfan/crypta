@@ -49,18 +49,6 @@ where
     }
 }
 
-impl Display for ParseHashError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ParseHashError::TooShort => write!(f, "hash is too short"),
-            ParseHashError::InvalidHex => {
-                write!(f, "hash contains characters which are not hex digits")
-            }
-            ParseHashError::TooLong => write!(f, "hash is too long"),
-        }
-    }
-}
-
 impl<H: HashFunction> FromStr for Hash<H>
 where
     [u8; H::SIZE]: Sized,
@@ -90,6 +78,28 @@ where
         } else {
             Err(ParseHashError::TooLong)
         }
+    }
+}
+
+impl<H: HashFunction> TryFrom<String> for Hash<H>
+where
+    [u8; H::SIZE]: Sized,
+{
+    type Error = ParseHashError;
+
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        value.parse()
+    }
+}
+
+impl<H: HashFunction> TryFrom<&str> for Hash<H>
+where
+    [u8; H::SIZE]: Sized,
+{
+    type Error = ParseHashError;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        value.parse()
     }
 }
 
@@ -163,6 +173,18 @@ where
 }
 
 impl std::error::Error for ParseHashError {}
+
+impl Display for ParseHashError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ParseHashError::TooShort => write!(f, "hash is too short"),
+            ParseHashError::InvalidHex => {
+                write!(f, "hash contains characters which are not hex digits")
+            }
+            ParseHashError::TooLong => write!(f, "hash is too long"),
+        }
+    }
+}
 
 impl Debug for ParseHashError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
