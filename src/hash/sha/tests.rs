@@ -1,4 +1,6 @@
 //! Secure Hashing Algorithms Tests
+//!
+//! Sourced from [DI Management](https://www.di-mgt.com.au/sha_testvectors.html)
 
 /// Produces a test function for the given input and algorithm
 macro_rules! test {
