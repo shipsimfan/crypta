@@ -6,6 +6,8 @@ mod sha256;
 mod sha384;
 mod sha512;
 
+mod tests;
+
 pub use sha256::*;
 pub use sha384::*;
 pub use sha512::*;
