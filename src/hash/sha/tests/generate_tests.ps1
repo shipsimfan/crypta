@@ -19,7 +19,7 @@ function CreateFileHash {
 
     $OutputPath = $InputPath -replace "in$", $AlgorithmLength
 
-    Out-File -FilePath $OutputPath -InputObject $Hash.Hash -NoNewline
+    Out-File -FilePath $OutputPath -InputObject $Hash.Hash -NoNewline -Encoding UTF8
 }
 
 $first = $true

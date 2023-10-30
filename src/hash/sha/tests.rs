@@ -11,11 +11,11 @@ macro_rules! test {
             use $crate::hash::HashFunction;
 
             const INPUT: &[u8] = include_bytes!(concat!("tests/", $test_name, ".in"));
-            const OUTPUT: &[u8] = include_bytes!(concat!("tests/", $test_name, ".", stringify!($algo_length)));
+            const OUTPUT: &str = include_str!(concat!("tests/", $test_name, ".", stringify!($algo_length)));
 
             let hash = $crate::hash::$algorithm::hash(INPUT.into_iter().map(|value| *value));
 
-            assert_eq!(hash, OUTPUT);
+            assert_eq!(&hash.to_string(), OUTPUT);
         }
     };
 }
@@ -25,7 +25,7 @@ macro_rules! test_repeated {
         $(#[$attr])*
         #[test]
         fn $fn_name() {
-            use $crate::hash::{HashFunction, Hasher};
+            use $crate::hash::HashFunction;
 
             const INPUT: &[u8] = include_bytes!(concat!("tests/", $test_name, ".inr"));
             const OUTPUT: &[u8] = include_bytes!(concat!("tests/", $test_name, ".", stringify!($algo_length)));
