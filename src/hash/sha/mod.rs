@@ -2,7 +2,7 @@
 //!
 //! Implemented as defined in [RFC 6234](https://doi.org/10.17487/RFC6234)
 
-use common::SHAHasher;
+use common::{SHAHasher, Word};
 
 mod sha256;
 mod sha384;

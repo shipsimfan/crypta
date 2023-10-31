@@ -1,7 +1,4 @@
-use std::{
-    marker::PhantomData,
-    ops::{Add, BitAnd, BitOr, BitXor, Not, Shr},
-};
+use std::ops::{Add, BitAnd, BitOr, BitXor, Not, Shr};
 
 pub(super) trait SHAWord:
     Sized
@@ -12,6 +9,8 @@ pub(super) trait SHAWord:
     + BitXor<Output = Self>
     + Not<Output = Self>
 {
+    const ZERO: Self;
+
     fn wrapping_add(self, rhs: Self) -> Self;
 
     fn wrapping_shr(self, rhs: u32) -> Self;
@@ -22,16 +21,26 @@ pub(super) trait SHAWord:
 
 #[repr(transparent)]
 #[derive(Clone, Copy)]
-struct Word<W: SHAWord>(W);
+pub(super) struct Word<W: SHAWord>(pub W);
 
-pub(super) struct SHAHasher<W: SHAWord> {
-    phantom: PhantomData<W>,
+pub(super) struct SHAHasher<W: SHAWord, const MESSAGE_SCHEDULE_LEN: usize> {
+    block: [Word<W>; 16],
+    block_len: usize,
+
+    message_schedule: [Word<W>; MESSAGE_SCHEDULE_LEN],
+    working: [Word<W>; 8],
+    hash_value: [Word<W>; 8],
 }
 
-impl<W: SHAWord> SHAHasher<W> {
-    pub(super) fn new() -> Self {
+impl<W: SHAWord, const MESSAGE_SCHEDULE_LEN: usize> SHAHasher<W, MESSAGE_SCHEDULE_LEN> {
+    pub(super) fn new(initial_hash_value: [Word<W>; 8]) -> Self {
         SHAHasher {
-            phantom: PhantomData,
+            block: [Word(W::ZERO); 16],
+            block_len: 0,
+
+            message_schedule: [Word(W::ZERO); MESSAGE_SCHEDULE_LEN],
+            working: [Word(W::ZERO); 8],
+            hash_value: initial_hash_value,
         }
     }
 
@@ -45,6 +54,8 @@ impl<W: SHAWord> SHAHasher<W> {
 }
 
 impl SHAWord for u32 {
+    const ZERO: Self = 0;
+
     fn wrapping_add(self, rhs: Self) -> Self {
         u32::wrapping_add(self, rhs)
     }
@@ -63,6 +74,8 @@ impl SHAWord for u32 {
 }
 
 impl SHAWord for u64 {
+    const ZERO: Self = 0;
+
     fn wrapping_add(self, rhs: Self) -> Self {
         u64::wrapping_add(self, rhs)
     }
