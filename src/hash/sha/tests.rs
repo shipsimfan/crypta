@@ -31,10 +31,7 @@ macro_rules! test_repeated {
             const OUTPUT: &[u8] = include_bytes!(concat!("tests/", $test_name, ".", stringify!($algo_length)));
 
             let mut hasher = $crate::hash::$algorithm::begin_hash();
-            let iter = INPUT.into_iter().map(|value| *value);
-            for _ in 0..$count {
-                hasher.add_hash(iter.clone());
-            }
+            hasher.add_hash(std::iter::repeat(INPUT.into_iter().map(|value| *value)).take($count).flatten());
             let hash = hasher.finalize_hash();
 
             assert_eq!(hash, OUTPUT);

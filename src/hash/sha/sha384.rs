@@ -1,9 +1,10 @@
+use super::SHAHasher;
 use crate::hash::{Hash, HashFunction, HashSize};
 
 /// SHA384 hash function
 ///
 /// Implemented as defined in [RFC 6234](https://doi.org/10.17487/RFC6234)
-pub struct SHA384;
+pub struct SHA384(SHAHasher<u64>);
 
 /// The size of the output in bits
 const BIT_SIZE: usize = 384;
@@ -15,15 +16,17 @@ impl HashFunction for SHA384 {
     const NAME: &'static str = "SHA384";
 
     fn begin_hash() -> Self {
-        SHA384
+        SHA384(SHAHasher::new())
     }
 
-    fn add_hash<I: IntoIterator<Item = u8>>(&mut self, _source: I) {
-        todo!()
+    fn add_hash<I: IntoIterator<Item = u8>>(&mut self, source: I) {
+        self.0.add_hash(&mut source.into_iter())
     }
 
     fn finalize_hash(self) -> Hash<Self> {
-        todo!()
+        let mut result = [0; Self::SIZE];
+        result.copy_from_slice(&self.0.finalize_hash()[..Self::SIZE]);
+        Hash::new(result)
     }
 }
 
