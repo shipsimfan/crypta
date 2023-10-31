@@ -1,12 +1,34 @@
-use std::marker::PhantomData;
+use std::{
+    marker::PhantomData,
+    ops::{Add, BitAnd, BitOr, BitXor, Not, Shr},
+};
 
-pub(super) trait SHAWord {}
+pub(super) trait SHAWord:
+    Sized
+    + Clone
+    + Copy
+    + BitAnd<Output = Self>
+    + BitOr<Output = Self>
+    + BitXor<Output = Self>
+    + Not<Output = Self>
+{
+    fn wrapping_add(self, rhs: Self) -> Self;
 
-pub(super) struct SHAHasher<Word: SHAWord> {
-    phantom: PhantomData<Word>,
+    fn wrapping_shr(self, rhs: u32) -> Self;
+
+    fn rotr(self, rhs: u32) -> Self;
+    fn rotl(self, rhs: u32) -> Self;
 }
 
-impl<Word: SHAWord> SHAHasher<Word> {
+#[repr(transparent)]
+#[derive(Clone, Copy)]
+struct Word<W: SHAWord>(W);
+
+pub(super) struct SHAHasher<W: SHAWord> {
+    phantom: PhantomData<W>,
+}
+
+impl<W: SHAWord> SHAHasher<W> {
     pub(super) fn new() -> Self {
         SHAHasher {
             phantom: PhantomData,
@@ -14,21 +36,94 @@ impl<Word: SHAWord> SHAHasher<Word> {
     }
 
     pub(super) fn add_hash(&mut self, source: &mut dyn Iterator<Item = u8>) {
-        let mut i = 0;
-        for byte in source {
-            if i % 1_000 == 0 {
-                println!("{} ({})", i, byte as char);
-            }
-
-            i += 1;
-        }
+        todo!()
     }
 
-    pub(super) fn finalize_hash(self) -> [u8; std::mem::size_of::<Word>() * 8] {
+    pub(super) fn finalize_hash(self) -> [u8; std::mem::size_of::<W>() * 8] {
         todo!()
     }
 }
 
-impl SHAWord for u32 {}
+impl SHAWord for u32 {
+    fn wrapping_add(self, rhs: Self) -> Self {
+        u32::wrapping_add(self, rhs)
+    }
 
-impl SHAWord for u64 {}
+    fn wrapping_shr(self, rhs: u32) -> Self {
+        u32::wrapping_shr(self, rhs)
+    }
+
+    fn rotr(self, rhs: u32) -> Self {
+        u32::rotate_right(self, rhs)
+    }
+
+    fn rotl(self, rhs: u32) -> Self {
+        u32::rotate_left(self, rhs)
+    }
+}
+
+impl SHAWord for u64 {
+    fn wrapping_add(self, rhs: Self) -> Self {
+        u64::wrapping_add(self, rhs)
+    }
+
+    fn wrapping_shr(self, rhs: u32) -> Self {
+        u64::wrapping_shr(self, rhs)
+    }
+
+    fn rotr(self, rhs: u32) -> Self {
+        u64::rotate_right(self, rhs)
+    }
+
+    fn rotl(self, rhs: u32) -> Self {
+        u64::rotate_left(self, rhs)
+    }
+}
+
+impl<W: SHAWord> BitAnd for Word<W> {
+    type Output = Self;
+
+    fn bitand(self, rhs: Self) -> Self::Output {
+        Word(self.0.bitand(rhs.0))
+    }
+}
+
+impl<W: SHAWord> BitOr for Word<W> {
+    type Output = Self;
+
+    fn bitor(self, rhs: Self) -> Self::Output {
+        Word(self.0.bitor(rhs.0))
+    }
+}
+
+impl<W: SHAWord> BitXor for Word<W> {
+    type Output = Self;
+
+    fn bitxor(self, rhs: Self) -> Self::Output {
+        Word(self.0.bitxor(rhs.0))
+    }
+}
+
+impl<W: SHAWord> Not for Word<W> {
+    type Output = Self;
+
+    fn not(self) -> Self::Output {
+        Word(self.0.not())
+    }
+}
+
+impl<W: SHAWord> Add for Word<W> {
+    type Output = Self;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Word(self.0.wrapping_add(rhs.0))
+    }
+}
+
+impl<W: SHAWord> Shr<u32> for Word<W> {
+    type Output = Self;
+
+    fn shr(self, rhs: u32) -> Self::Output {
+        Word(self.0.wrapping_shr(rhs))
+    }
+}
