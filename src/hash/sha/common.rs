@@ -27,9 +27,16 @@ pub(super) struct SHAHasher<W: SHAWord, const MESSAGE_SCHEDULE_LEN: usize> {
     block: [Word<W>; 16],
     block_len: usize,
 
-    message_schedule: [Word<W>; MESSAGE_SCHEDULE_LEN],
-    working: [Word<W>; 8],
     hash_value: [Word<W>; 8],
+}
+
+fn as_bytes_mut<W: SHAWord>(block: &mut [Word<W>]) -> &mut [u8] {
+    unsafe {
+        std::slice::from_raw_parts_mut(
+            block.as_mut_ptr().cast(),
+            std::mem::size_of::<W>() * block.len(),
+        )
+    }
 }
 
 impl<W: SHAWord, const MESSAGE_SCHEDULE_LEN: usize> SHAHasher<W, MESSAGE_SCHEDULE_LEN> {
@@ -38,17 +45,31 @@ impl<W: SHAWord, const MESSAGE_SCHEDULE_LEN: usize> SHAHasher<W, MESSAGE_SCHEDUL
             block: [Word(W::ZERO); 16],
             block_len: 0,
 
-            message_schedule: [Word(W::ZERO); MESSAGE_SCHEDULE_LEN],
-            working: [Word(W::ZERO); 8],
             hash_value: initial_hash_value,
         }
     }
 
     pub(super) fn add_hash(&mut self, source: &mut dyn Iterator<Item = u8>) {
-        todo!()
+        let mut block = as_bytes_mut(&mut self.block);
+
+        for byte in source {
+            if self.block_len == block.len() {
+                self.hash_current_block();
+
+                block = as_bytes_mut(&mut self.block);
+                self.block_len = 0;
+            }
+
+            block[self.block_len] = byte;
+            self.block_len += 1;
+        }
     }
 
     pub(super) fn finalize_hash(self) -> [u8; std::mem::size_of::<W>() * 8] {
+        todo!()
+    }
+
+    fn hash_current_block(&mut self) {
         todo!()
     }
 }
