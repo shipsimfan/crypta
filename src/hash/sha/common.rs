@@ -39,6 +39,14 @@ fn as_bytes_mut<W: SHAWord>(block: &mut [Word<W>]) -> &mut [u8] {
     }
 }
 
+fn ch<W: SHAWord>(x: Word<W>, y: Word<W>, z: Word<W>) -> Word<W> {
+    (x & y) ^ (!x & z)
+}
+
+fn maj<W: SHAWord>(x: Word<W>, y: Word<W>, z: Word<W>) -> Word<W> {
+    (x & y) ^ (x & z) ^ (y & z)
+}
+
 impl<W: SHAWord, const MESSAGE_SCHEDULE_LEN: usize> SHAHasher<W, MESSAGE_SCHEDULE_LEN> {
     pub(super) fn new(initial_hash_value: [Word<W>; 8]) -> Self {
         SHAHasher {
@@ -70,7 +78,52 @@ impl<W: SHAWord, const MESSAGE_SCHEDULE_LEN: usize> SHAHasher<W, MESSAGE_SCHEDUL
     }
 
     fn hash_current_block(&mut self) {
-        todo!()
+        // Prepare the message schedule
+        let mut message_schedule = [Word(W::ZERO); MESSAGE_SCHEDULE_LEN];
+
+        for i in 0..15 {
+            message_schedule[i] = self.block[i];
+        }
+
+        for i in 16..MESSAGE_SCHEDULE_LEN {
+            message_schedule[i] =
+                todo!() + message_schedule[i - 7] + todo!() + message_schedule[i - 16];
+        }
+
+        // Initialize the working variables
+        let mut a = self.hash_value[0];
+        let mut b = self.hash_value[1];
+        let mut c = self.hash_value[2];
+        let mut d = self.hash_value[3];
+        let mut e = self.hash_value[4];
+        let mut f = self.hash_value[5];
+        let mut g = self.hash_value[6];
+        let mut h = self.hash_value[7];
+
+        // Perform the main hash computation
+        for i in 0..MESSAGE_SCHEDULE_LEN {
+            let t1 = h + todo!() + ch(e, f, g) + todo!() + message_schedule[i];
+            let t2 = todo!() + maj(a, b, c);
+
+            h = g;
+            g = f;
+            f = e;
+            e = d + t1;
+            d = c;
+            c = b;
+            b = a;
+            a = t1 + t2;
+        }
+
+        // Computer the intermediate hash value
+        self.hash_value[0] = a + self.hash_value[0];
+        self.hash_value[1] = b + self.hash_value[1];
+        self.hash_value[2] = c + self.hash_value[2];
+        self.hash_value[3] = d + self.hash_value[3];
+        self.hash_value[4] = e + self.hash_value[4];
+        self.hash_value[5] = f + self.hash_value[5];
+        self.hash_value[6] = g + self.hash_value[6];
+        self.hash_value[7] = h + self.hash_value[7];
     }
 }
 
