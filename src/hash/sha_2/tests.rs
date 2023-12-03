@@ -28,13 +28,13 @@ macro_rules! test_repeated {
             use $crate::hash::HashFunction;
 
             const INPUT: &[u8] = include_bytes!(concat!("tests/", $test_name, ".inr"));
-            const OUTPUT: &[u8] = include_bytes!(concat!("tests/", $test_name, ".", stringify!($algo_length)));
+            const OUTPUT: &str = include_str!(concat!("tests/", $test_name, ".", stringify!($algo_length)));
 
             let mut hasher = $crate::hash::$algorithm::begin_hash();
             hasher.add_hash(std::iter::repeat(INPUT.into_iter().map(|value| *value)).take($count).flatten());
             let hash = hasher.finalize_hash();
 
-            assert_eq!(hash, OUTPUT);
+            assert_eq!(&hash.to_string(), OUTPUT);
         }
     };
 }
