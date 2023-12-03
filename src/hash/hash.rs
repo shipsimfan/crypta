@@ -165,7 +165,7 @@ where
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for byte in &self.0 {
-            write!(f, "{:x}", byte)?;
+            write!(f, "{:02x}", byte)?;
         }
 
         Ok(())
