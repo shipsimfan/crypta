@@ -2,16 +2,15 @@
 //!
 //! Implemented as defined in [RFC 6234](https://doi.org/10.17487/RFC6234)
 
-use common::{SHAHasher, Word};
-
+mod sha224;
 mod sha256;
 mod sha384;
 mod sha512;
 
-mod common;
-
+#[cfg(test)]
 mod tests;
 
-pub use sha256::*;
-pub use sha384::*;
-pub use sha512::*;
+pub use sha224::SHA224;
+pub use sha256::SHA256;
+pub use sha384::SHA384;
+pub use sha512::SHA512;
