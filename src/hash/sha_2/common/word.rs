@@ -1,7 +1,14 @@
 use std::ops::{BitAnd, BitOr, BitXor, Not, Shr};
 
 pub(in crate::hash::sha_2) trait Word:
-    Sized + BitAnd + BitOr + BitXor + Not + Shr
+    Sized
+    + BitAnd<Self, Output = Self>
+    + BitOr<Self, Output = Self>
+    + BitXor<Self, Output = Self>
+    + Not<Output = Self>
+    + Shr<u32, Output = Self>
+    + Clone
+    + Copy
 {
     fn add(self, other: Self) -> Self;
 
