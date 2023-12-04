@@ -7,6 +7,8 @@ mod sha256;
 mod sha384;
 mod sha512;
 
+mod common;
+
 #[cfg(test)]
 mod tests;
 
