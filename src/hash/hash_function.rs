@@ -19,9 +19,6 @@ where
     /// Name for this hash function
     const NAME: &'static str;
 
-    /// Start a hash by returning a [`Hasher`]
-    fn begin_hash() -> Self;
-
     /// Hashes `source`
     fn hash<I: IntoIterator<Item = u8>>(source: I) -> Hash<Self> {
         let mut hasher = Self::begin_hash();
@@ -29,9 +26,12 @@ where
         hasher.finalize_hash()
     }
 
-    /// Add the bytes from `source` to hash
+    /// Start a hash by returning a [`HashFunction`]
+    fn begin_hash() -> Self;
+
+    /// Add the bytes from `source` to the hash
     fn add_hash<I: IntoIterator<Item = u8>>(&mut self, source: I);
 
-    /// Finalize and return the resulting hash
+    /// Finalize and return the resulting [`Hash`]
     fn finalize_hash(self) -> Hash<Self>;
 }

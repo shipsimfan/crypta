@@ -1,4 +1,3 @@
-//! # Hash Module
 //! Contains a standard hash interface and some hash functions.
 //!
 //! The following hash functions have been implemented:

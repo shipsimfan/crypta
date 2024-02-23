@@ -12,10 +12,16 @@ pub struct Hash<H: HashFunction>([u8; H::BYTE_SIZE])
 where
     [u8; H::BYTE_SIZE]: Sized;
 
+/// An error while parsing a [`Hash`] from a string
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum ParseHashError {
+    /// The provided string is too short
     TooShort,
+
+    /// The provided string contains invalid hex characters
     InvalidHex,
+
+    /// The provided string is too long
     TooLong,
 }
 
