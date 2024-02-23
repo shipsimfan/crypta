@@ -1,7 +1,10 @@
+mod buffer;
 mod constants;
-mod functions;
+mod hasher;
 mod word;
 
-pub(super) use constants::*;
-pub(super) use functions::*;
-pub(super) use word::Word;
+pub(super) use hasher::Hasher;
+pub(super) use word::{HashLength, Word};
+
+use buffer::Buffer;
+use constants::{LONG_K, SHORT_K};

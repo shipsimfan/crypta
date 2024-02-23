@@ -1,7 +1,7 @@
 use super::HashFunction;
 use std::{
     fmt::{Debug, Display},
-    ops::{Deref, DerefMut},
+    ops::{Deref, DerefMut, Index, IndexMut, Range, RangeFrom, RangeTo},
     str::FromStr,
 };
 
@@ -61,6 +61,86 @@ where
 {
     fn default() -> Self {
         Hash([0; H::BYTE_SIZE])
+    }
+}
+
+impl<H: HashFunction> Index<usize> for Hash<H>
+where
+    [u8; H::BYTE_SIZE]: Sized,
+{
+    type Output = u8;
+
+    fn index(&self, index: usize) -> &Self::Output {
+        &self.0[index]
+    }
+}
+
+impl<H: HashFunction> IndexMut<usize> for Hash<H>
+where
+    [u8; H::BYTE_SIZE]: Sized,
+{
+    fn index_mut(&mut self, index: usize) -> &mut Self::Output {
+        &mut self.0[index]
+    }
+}
+
+impl<H: HashFunction> Index<Range<usize>> for Hash<H>
+where
+    [u8; H::BYTE_SIZE]: Sized,
+{
+    type Output = [u8];
+
+    fn index(&self, index: Range<usize>) -> &Self::Output {
+        &self.0[index]
+    }
+}
+
+impl<H: HashFunction> IndexMut<Range<usize>> for Hash<H>
+where
+    [u8; H::BYTE_SIZE]: Sized,
+{
+    fn index_mut(&mut self, index: Range<usize>) -> &mut Self::Output {
+        &mut self.0[index]
+    }
+}
+
+impl<H: HashFunction> Index<RangeFrom<usize>> for Hash<H>
+where
+    [u8; H::BYTE_SIZE]: Sized,
+{
+    type Output = [u8];
+
+    fn index(&self, index: RangeFrom<usize>) -> &Self::Output {
+        &self.0[index]
+    }
+}
+
+impl<H: HashFunction> IndexMut<RangeFrom<usize>> for Hash<H>
+where
+    [u8; H::BYTE_SIZE]: Sized,
+{
+    fn index_mut(&mut self, index: RangeFrom<usize>) -> &mut Self::Output {
+        &mut self.0[index]
+    }
+}
+
+impl<H: HashFunction> Index<RangeTo<usize>> for Hash<H>
+where
+    [u8; H::BYTE_SIZE]: Sized,
+{
+    type Output = [u8];
+
+    fn index(&self, index: RangeTo<usize>) -> &Self::Output {
+        &self.0[index]
+    }
+}
+
+impl<H: HashFunction> IndexMut<RangeTo<usize>> for Hash<H>
+where
+    [u8; H::BYTE_SIZE]: Sized,
+{
+    fn index_mut(&mut self, index: RangeTo<usize>) -> &mut Self::Output {
+        &mut self.0[index]
     }
 }
 
