@@ -8,7 +8,7 @@ pub(in crate::hash::sha_2) trait HashLength:
     Sized + AddAssign + Clone + Copy
 {
     const ZERO: Self;
-    const ONE: Self;
+    const EIGHT: Self;
 
     fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()];
 }
@@ -141,7 +141,7 @@ impl Word for u64 {
 
 impl HashLength for u64 {
     const ZERO: Self = 0;
-    const ONE: Self = 1;
+    const EIGHT: Self = 8;
 
     fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()] {
         self.to_be_bytes()
@@ -150,7 +150,7 @@ impl HashLength for u64 {
 
 impl HashLength for u128 {
     const ZERO: Self = 0;
-    const ONE: Self = 1;
+    const EIGHT: Self = 8;
 
     fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()] {
         self.to_be_bytes()

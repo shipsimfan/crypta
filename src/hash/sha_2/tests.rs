@@ -49,6 +49,11 @@ test!(sha256_empty, SHA256, 256, "empty");
 test!(sha384_empty, SHA384, 384, "empty");
 test!(sha512_empty, SHA512, 512, "empty");
 
+test!(sha224_fox, SHA224, 224, "fox");
+test!(sha256_fox, SHA256, 256, "fox");
+test!(sha384_fox, SHA384, 384, "fox");
+test!(sha512_fox, SHA512, 512, "fox");
+
 test!(sha224_len_448, SHA224, 224, "len_448");
 test!(sha256_len_448, SHA256, 256, "len_448");
 test!(sha384_len_448, SHA384, 384, "len_448");

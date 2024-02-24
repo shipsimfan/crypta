@@ -29,7 +29,7 @@ where
     pub(in crate::hash::sha_2) fn add_byte(&mut self, byte: u8) {
         self.buffer[self.index] = byte;
         self.index += 1;
-        self.total_length += W::Length::ONE;
+        self.total_length += W::Length::EIGHT;
 
         if self.index == self.buffer.len() {
             self.calculate_block();
