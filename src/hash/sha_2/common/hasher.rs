@@ -3,6 +3,8 @@ use super::{Buffer, HashLength, Word};
 pub(in crate::hash::sha_2) struct Hasher<W: Word>
 where
     [u8; 16 * std::mem::size_of::<W>()]: Sized,
+    [u8; std::mem::size_of::<W::Length>()]: Sized,
+    [W; W::ROUNDS]: Sized,
 {
     buffer: Buffer<W, 16>,
     index: usize,
@@ -14,6 +16,7 @@ impl<W: Word> Hasher<W>
 where
     [u8; 16 * std::mem::size_of::<W>()]: Sized,
     [u8; std::mem::size_of::<W::Length>()]: Sized,
+    [W; W::ROUNDS]: Sized,
 {
     pub(in crate::hash::sha_2) fn new(initial_hash_value: [W; 8]) -> Self {
         Hasher {
@@ -81,14 +84,14 @@ where
     fn calculate_block(&mut self) {
         assert_eq!(self.index, self.buffer.len());
 
-        let mut w = [W::ZERO; 64];
+        let mut w = [W::ZERO; W::ROUNDS];
         let m = self.buffer.as_words();
 
         // Prepare the message schedule
         for t in 0..16 {
             w[t] = m[t];
         }
-        for t in 16..64 {
+        for t in 16..W::ROUNDS {
             w[t] = (w[t - 2].ssig1())
                 .add(w[t - 7])
                 .add(w[t - 15].ssig0())
@@ -106,7 +109,7 @@ where
         let mut h = self.hash[7];
 
         // Perform the main hash computation
-        for t in 0..64 {
+        for t in 0..W::ROUNDS {
             let t1 = h.add(e.bsig1()).add(W::ch(e, f, g)).add(W::K[t]).add(w[t]);
             let t2 = a.bsig0().add(W::maj(a, b, c));
             h = g;

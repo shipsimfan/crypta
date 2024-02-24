@@ -29,6 +29,8 @@ pub(in crate::hash::sha_2) trait Word:
     type Length: HashLength;
 
     const K: &'static [Self];
+    const ROUNDS: usize;
+
     const ZERO: Self;
 
     fn swap_endian(self) -> Self;
@@ -65,6 +67,8 @@ impl Word for u32 {
     type Length = u64;
 
     const K: &'static [Self] = &SHORT_K;
+    const ROUNDS: usize = 64;
+
     const ZERO: Self = 0;
 
     fn swap_endian(self) -> Self {
@@ -104,6 +108,8 @@ impl Word for u64 {
     type Length = u128;
 
     const K: &'static [Self] = &LONG_K;
+    const ROUNDS: usize = 80;
+
     const ZERO: Self = 0;
 
     fn swap_endian(self) -> Self {
