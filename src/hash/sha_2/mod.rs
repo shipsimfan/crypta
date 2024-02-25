@@ -9,9 +9,6 @@ mod sha512;
 
 mod common;
 
-#[cfg(test)]
-mod tests;
-
 pub use sha224::SHA224;
 pub use sha256::SHA256;
 pub use sha384::SHA384;

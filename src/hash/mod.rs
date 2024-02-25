@@ -12,6 +12,9 @@ mod sha_2;
 mod hash;
 mod hash_function;
 
+#[cfg(test)]
+mod tests;
+
 // Hash Algorithm re-exports
 pub use sha_2::{SHA224, SHA256, SHA384, SHA512};
 
