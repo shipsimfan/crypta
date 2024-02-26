@@ -12,6 +12,8 @@ mod sha_2;
 mod hash;
 mod hash_function;
 
+mod common;
+
 #[cfg(test)]
 mod tests;
 
