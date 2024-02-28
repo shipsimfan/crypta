@@ -4,7 +4,7 @@ import os;
 import os.path;
 import hashlib;
 
-ALGORITHMS = ["sha224", "sha256", "sha384", "sha512"]
+ALGORITHMS = ["sha1", "sha224", "sha256", "sha384", "sha512"]
 
 REPEATED_TESTS = [("a_rep", 1_000_000), ("long_rep", 16_777_216)]
 
