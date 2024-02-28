@@ -1,17 +1,8 @@
 use super::{LONG_K, SHORT_K};
 use std::{
     fmt::{Display, UpperHex},
-    ops::{AddAssign, BitAnd, BitOr, BitXor, Not, Shr},
+    ops::{BitAnd, BitOr, BitXor, Not, Shr},
 };
-
-pub(in crate::hash::sha_2) trait HashLength:
-    Sized + AddAssign + Clone + Copy
-{
-    const ZERO: Self;
-    const EIGHT: Self;
-
-    fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()];
-}
 
 pub(in crate::hash::sha_2) trait Word:
     'static
@@ -26,14 +17,14 @@ pub(in crate::hash::sha_2) trait Word:
     + Display
     + UpperHex
 {
-    type Length: HashLength;
-
     const K: &'static [Self];
     const ROUNDS: usize;
+    const BLOCK_SIZE: usize;
 
     const ZERO: Self;
 
-    fn swap_endian(self) -> Self;
+    fn from_be_bytes(bytes: &[u8], index: usize) -> Self;
+    fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()];
 
     fn add(self, other: Self) -> Self;
 
@@ -64,15 +55,24 @@ pub(in crate::hash::sha_2) trait Word:
 }
 
 impl Word for u32 {
-    type Length = u64;
-
     const K: &'static [Self] = &SHORT_K;
     const ROUNDS: usize = 64;
+    const BLOCK_SIZE: usize = 64;
 
     const ZERO: Self = 0;
 
-    fn swap_endian(self) -> Self {
-        u32::from_be_bytes(self.to_le_bytes())
+    fn from_be_bytes(bytes: &[u8], index: usize) -> Self {
+        let index = index * 4;
+        u32::from_be_bytes([
+            bytes[index],
+            bytes[index + 1],
+            bytes[index + 2],
+            bytes[index + 3],
+        ])
+    }
+
+    fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()] {
+        self.to_be_bytes()
     }
 
     fn add(self, other: Self) -> Self {
@@ -105,15 +105,28 @@ impl Word for u32 {
 }
 
 impl Word for u64 {
-    type Length = u128;
-
     const K: &'static [Self] = &LONG_K;
     const ROUNDS: usize = 80;
+    const BLOCK_SIZE: usize = 128;
 
     const ZERO: Self = 0;
 
-    fn swap_endian(self) -> Self {
-        u64::from_be_bytes(self.to_le_bytes())
+    fn from_be_bytes(bytes: &[u8], index: usize) -> Self {
+        let index = index * 8;
+        u64::from_be_bytes([
+            bytes[index],
+            bytes[index + 1],
+            bytes[index + 2],
+            bytes[index + 3],
+            bytes[index + 4],
+            bytes[index + 5],
+            bytes[index + 6],
+            bytes[index + 7],
+        ])
+    }
+
+    fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()] {
+        self.to_be_bytes()
     }
 
     fn add(self, other: Self) -> Self {
@@ -142,23 +155,5 @@ impl Word for u64 {
 
     fn ssig1(self) -> Self {
         self.ssig::<19, 61, 6>()
-    }
-}
-
-impl HashLength for u64 {
-    const ZERO: Self = 0;
-    const EIGHT: Self = 8;
-
-    fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()] {
-        self.to_be_bytes()
-    }
-}
-
-impl HashLength for u128 {
-    const ZERO: Self = 0;
-    const EIGHT: Self = 8;
-
-    fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()] {
-        self.to_be_bytes()
     }
 }

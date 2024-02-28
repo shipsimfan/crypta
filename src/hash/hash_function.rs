@@ -19,19 +19,29 @@ where
     /// Name for this hash function
     const NAME: &'static str;
 
-    /// Hashes `source`
-    fn hash<I: IntoIterator<Item = u8>>(source: I) -> Hash<Self> {
-        let mut hasher = Self::begin_hash();
-        hasher.add_hash(source);
-        hasher.finalize_hash()
+    /// Hashes `bytes`
+    fn hash(bytes: impl AsRef<[u8]>) -> Hash<Self> {
+        let mut hasher = Self::new();
+        hasher.push(bytes);
+        hasher.digest()
+    }
+
+    /// Hashes `bytes`
+    fn hash_iter(bytes: impl Iterator<Item = u8>) -> Hash<Self> {
+        let mut hasher = Self::new();
+        hasher.push_iter(bytes);
+        hasher.digest()
     }
 
     /// Start a hash by returning a [`HashFunction`]
-    fn begin_hash() -> Self;
+    fn new() -> Self;
 
-    /// Add the bytes from `source` to the hash
-    fn add_hash<I: IntoIterator<Item = u8>>(&mut self, source: I);
+    /// Adds `bytes` to the hash
+    fn push(&mut self, bytes: impl AsRef<[u8]>);
+
+    /// Adds `bytes` to the hash
+    fn push_iter(&mut self, bytes: impl Iterator<Item = u8>);
 
     /// Finalize and return the resulting [`Hash`]
-    fn finalize_hash(self) -> Hash<Self>;
+    fn digest(self) -> Hash<Self>;
 }

@@ -1,15 +1,13 @@
 macro_rules! hash {
     ($algorithm: ident, $input: ident) => {
-        $crate::hash::$algorithm::hash($input.into_iter().map(|value| *value))
+        $crate::hash::$algorithm::hash($input)
     };
     ($algorithm: ident, $input: ident, $count: literal) => {{
-        let mut hasher = $crate::hash::$algorithm::begin_hash();
-        hasher.add_hash(
-            std::iter::repeat($input.into_iter().map(|value| *value))
-                .take($count)
-                .flatten(),
-        );
-        hasher.finalize_hash()
+        let mut hasher = $crate::hash::$algorithm::new();
+        for _ in 0..$count {
+            hasher.push($input);
+        }
+        hasher.digest()
     }};
 }
 

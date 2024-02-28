@@ -34,11 +34,15 @@ where
         Hash(hash)
     }
 
-    /// Hashes source and returns the resulting hash
-    pub fn create<I: IntoIterator<Item = u8>>(source: I) -> Self {
-        H::hash(source)
+    /// Hashes `bytes` and returns the resulting hash
+    pub fn create(bytes: impl AsRef<[u8]>) -> Self {
+        H::hash(bytes)
     }
 
+    /// Hashes `bytes` and returns the resulting hash
+    pub fn create_iter(bytes: impl Iterator<Item = u8>) -> Self {
+        H::hash_iter(bytes)
+    }
     /// Returns the underlying hash
     pub const fn inner(&self) -> &[u8; H::BYTE_SIZE] {
         &self.0

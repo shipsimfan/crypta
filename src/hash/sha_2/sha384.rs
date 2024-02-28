@@ -1,10 +1,10 @@
-use super::common::Hasher;
-use crate::hash::{Hash, HashFunction, HashSize};
+use super::common::SHA2HasherState;
+use crate::hash::{common::Hasher, Hash, HashFunction, HashSize};
 
 /// SHA384 hash function
 ///
 /// Implemented as defined in [RFC 6234](https://doi.org/10.17487/RFC6234)
-pub struct SHA384(Hasher<u64>);
+pub struct SHA384(Hasher<SHA2HasherState<u64>, u128>);
 
 const INITIAL_HASH_VALUE: [u64; 8] = [
     0xCBBB9D5DC1059ED8,
@@ -20,24 +20,20 @@ const INITIAL_HASH_VALUE: [u64; 8] = [
 impl HashFunction for SHA384 {
     const NAME: &'static str = "SHA384";
 
-    fn begin_hash() -> Self {
-        SHA384(Hasher::new(INITIAL_HASH_VALUE))
+    fn new() -> Self {
+        SHA384(Hasher::new(SHA2HasherState::new(INITIAL_HASH_VALUE)))
     }
 
-    fn add_hash<I: IntoIterator<Item = u8>>(&mut self, source: I) {
-        for byte in source {
-            self.0.add_byte(byte);
-        }
+    fn push(&mut self, bytes: impl AsRef<[u8]>) {
+        self.0.push_slice(bytes)
     }
 
-    fn finalize_hash(mut self) -> Hash<Self> {
-        self.0.calculate_last_block();
+    fn push_iter(&mut self, bytes: impl Iterator<Item = u8>) {
+        self.0.push_iter(bytes)
+    }
 
-        let full_hash = self.0.unwrap_hash();
-        let mut hash = [0; 6];
-        hash.copy_from_slice(&full_hash[..6]);
-
-        Hash::new(unsafe { std::mem::transmute(hash) })
+    fn digest(self) -> Hash<Self> {
+        Hash::new(self.0.digest().unwrap::<6>())
     }
 }
 

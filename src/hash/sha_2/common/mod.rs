@@ -1,10 +1,8 @@
-mod buffer;
 mod constants;
-mod hasher;
+mod hasher_state;
 mod word;
 
-pub(super) use hasher::Hasher;
-pub(super) use word::{HashLength, Word};
+pub(super) use hasher_state::SHA2HasherState;
+pub(super) use word::Word;
 
-use buffer::Buffer;
 use constants::{LONG_K, SHORT_K};
