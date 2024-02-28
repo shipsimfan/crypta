@@ -1,9 +1,4 @@
-use super::Block;
-
-/// A type which can be used for the bit-length at the end of a hash input
-pub(in crate::hash) trait BitLength: Sized {
-    fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()];
-}
+use super::{BitLength, Block};
 
 /// Pads `block` for MD5, SHA-1, and SHA-2
 ///

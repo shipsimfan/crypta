@@ -27,6 +27,11 @@ where
         SIZE - self.index
     }
 
+    /// Have any bytes been pushed to this block yet?
+    pub(super) fn is_empty(&self) -> bool {
+        self.index == 0
+    }
+
     /// Pushes `byte` to the end of the block
     ///
     /// # Panic
@@ -39,15 +44,21 @@ where
 
     /// Pushes bytes from `bytes` to the end of the block until either `bytes` returns [`None`] or
     /// the block is filled
-    pub(super) fn push_bytes(&mut self, bytes: &mut dyn Iterator<Item = u8>) {
+    ///
+    /// Returns the number of bytes pushed
+    pub(super) fn push_bytes(&mut self, bytes: &mut dyn Iterator<Item = u8>) -> usize {
+        let mut count = 0;
         while self.remaining() > 0 {
             let byte = match bytes.next() {
                 Some(byte) => byte,
-                None => return,
+                None => break,
             };
 
             self.push_byte(byte);
+            count += 1;
         }
+
+        count
     }
 
     /// Pushes a slice of bytes to the end of the block
