@@ -1,6 +1,6 @@
 use crate::hash::common::HasherState;
 
-/// The state used by SHA-2 hash functions
+/// The state used by SHA-1 hash functions
 pub struct SHA1HasherState([u32; 5]);
 
 const INITIAL_HASH_VALUE: [u32; 5] = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0];

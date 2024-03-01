@@ -1,18 +1,18 @@
 use crate::hash::{common::Hasher, Hash, HashFunction, HashSize};
-use hasher_state::SHA1HasherState;
+use hasher_state::MD5HasherState;
 
 mod hasher_state;
 
-/// SHA1 hash function
+/// MD5 hash function
 ///
-/// Implemented as defined in [RFC 3174](https://doi.org/10.17487/RFC3174)
-pub struct SHA1(Hasher<SHA1HasherState, u64>);
+/// Implemented as defined in [RFC 1321](https://doi.org/10.17487/RFC1321)
+pub struct MD5(Hasher<MD5HasherState, u64>);
 
-impl HashFunction for SHA1 {
-    const NAME: &'static str = "SHA1";
+impl HashFunction for MD5 {
+    const NAME: &'static str = "MD5";
 
     fn new() -> Self {
-        SHA1(Hasher::new(SHA1HasherState::new()))
+        MD5(Hasher::new(MD5HasherState::new()))
     }
 
     fn push(&mut self, bytes: impl AsRef<[u8]>) {
@@ -28,7 +28,7 @@ impl HashFunction for SHA1 {
     }
 }
 
-impl HashSize for SHA1 {
+impl HashSize for MD5 {
     /// The size of the output in bits
-    const BIT_SIZE: usize = 160;
+    const BIT_SIZE: usize = 128;
 }

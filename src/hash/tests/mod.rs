@@ -7,6 +7,7 @@ mod macros;
 
 tests! {
     "Algorithms": [
+        (md5, MD5),
         (sha1, SHA1),
         (sha224, SHA224),
         (sha256, SHA256),
