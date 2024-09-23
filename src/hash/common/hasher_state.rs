@@ -1,6 +1,6 @@
 // rustdoc imports
 #[allow(unused_imports)]
-use super::Hasher;
+use crate::hash::common::Hasher;
 
 /// A state for a [`Hasher`]
 pub(in crate::hash) trait HasherState {

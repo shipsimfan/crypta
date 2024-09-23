@@ -1,15 +1,8 @@
-use super::Hash;
+use crate::hash::Hash;
 
-/// A trait for holding the size of a resulting hash.
-///
-/// This is required to avoid cycles in the [`HashFunction`] trait.
-pub trait HashSize {
-    /// The size of the output in bits
-    const BIT_SIZE: usize;
+mod hash_size;
 
-    /// The size of the output in bytes
-    const BYTE_SIZE: usize = (Self::BIT_SIZE + 7) / 8;
-}
+pub use hash_size::HashSize;
 
 /// A standard interface for hash functions.
 pub trait HashFunction: HashSize + Sized
