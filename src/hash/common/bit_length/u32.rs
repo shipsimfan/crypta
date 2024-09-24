@@ -10,4 +10,8 @@ impl BitLength for u128 {
     fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()] {
         u128::to_be_bytes(self)
     }
+
+    fn to_le_bytes(self) -> [u8; std::mem::size_of::<Self>()] {
+        u128::to_le_bytes(self)
+    }
 }

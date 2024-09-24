@@ -8,6 +8,7 @@ pub(in crate::hash::common) fn zero_pad<Length: BitLength, const SIZE: usize>(
     block: &mut Block<SIZE>,
     length: Length,
     first_byte: u8,
+    big_endian_length: bool,
 ) -> &[u8]
 where
     [u8; SIZE]: Sized,
@@ -25,7 +26,11 @@ where
     }
 
     // Push the bit-length
-    block.push_slice(&length.to_be_bytes());
+    block.push_slice(&if big_endian_length {
+        length.to_be_bytes()
+    } else {
+        length.to_le_bytes()
+    });
 
     // Return the padded block
     block.consume()

@@ -9,7 +9,6 @@ pub(super) fn ff<F: Fn(u32, u32, u32) -> u32>(
     ac: u32,
     f: F,
 ) {
-    *a = a.wrapping_add(f(b, c, d).wrapping_add(x).wrapping_add(ac));
-    *a = a.rotate_left(s);
-    *a = a.wrapping_add(b);
+    *a =
+        b.wrapping_add((a.wrapping_add(f(b, c, d)).wrapping_add(x).wrapping_add(ac)).rotate_left(s))
 }

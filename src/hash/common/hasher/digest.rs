@@ -7,11 +7,17 @@ where
 {
     /// Finalizes the hash
     pub(in crate::hash) fn digest(mut self) -> State {
-        let (padded_block, first_byte) = pad(&mut self.block, self.length);
+        let (padded_block, first_byte) =
+            pad(&mut self.block, self.length, State::BIG_ENDIAN_LENGTH);
         self.state.compress(padded_block);
 
         if let Some(first_byte) = first_byte {
-            let padded_block = zero_pad(&mut self.block, self.length, first_byte);
+            let padded_block = zero_pad(
+                &mut self.block,
+                self.length,
+                first_byte,
+                State::BIG_ENDIAN_LENGTH,
+            );
             self.state.compress(padded_block);
         }
 

@@ -1,8 +1,12 @@
 use ff::ff;
+use round::round;
 use step_fns::{f, g, h, i};
+use t::T;
 
 mod ff;
+mod round;
 mod step_fns;
+mod t;
 
 #[inline(always)]
 pub(super) fn compress(
@@ -23,73 +27,93 @@ pub(super) fn compress(
         ]);
     }
 
-    ff(&mut a, b, c, d, x[0], 7, 0xD76AA478, f); // 1
-    ff(&mut d, a, b, c, x[1], 12, 0xE8C7B756, f); // 2
-    ff(&mut c, d, a, b, x[2], 17, 0x242070DB, f); // 3
-    ff(&mut b, c, d, a, x[3], 22, 0xC1BDCEEE, f); // 4
-    ff(&mut a, b, c, d, x[4], 7, 0xF57C0FAF, f); // 5
-    ff(&mut d, a, b, c, x[5], 12, 0x4787C62A, f); // 6
-    ff(&mut c, d, a, b, x[6], 17, 0xA8304613, f); // 7
-    ff(&mut b, c, d, a, x[7], 22, 0xFD469501, f); // 8
-    ff(&mut a, b, c, d, x[8], 7, 0x698098D8, f); // 9
-    ff(&mut d, a, b, c, x[9], 12, 0x8B44F7AF, f); // 10
-    ff(&mut c, d, a, b, x[10], 17, 0xFFFF5BB1, f); // 11
-    ff(&mut b, c, d, a, x[11], 22, 0x895CD7BE, f); // 12
-    ff(&mut a, b, c, d, x[12], 7, 0x6B901122, f); // 13
-    ff(&mut d, a, b, c, x[13], 12, 0xFD987193, f); // 14
-    ff(&mut c, d, a, b, x[14], 17, 0xA679438E, f); // 15
-    ff(&mut b, c, d, a, x[15], 22, 0x49B40821, f); // 16
+    // F
 
-    ff(&mut a, b, c, d, x[1], 5, 0xF61E2562, g); // 17
-    ff(&mut d, a, b, c, x[6], 9, 0xC040B340, g); // 18
-    ff(&mut c, d, a, b, x[11], 14, 0x265E5A51, g); // 19
-    ff(&mut b, c, d, a, x[0], 20, 0xE9B6C7AA, g); // 20
-    ff(&mut a, b, c, d, x[5], 5, 0xD62F105D, g); // 21
-    ff(&mut d, a, b, c, x[10], 9, 0x2441453, g); // 22
-    ff(&mut c, d, a, b, x[15], 14, 0xD8A1E681, g); // 23
-    ff(&mut b, c, d, a, x[4], 20, 0xE7D3FBC8, g); // 24
-    ff(&mut a, b, c, d, x[9], 5, 0x21E1CDE6, g); // 25
-    ff(&mut d, a, b, c, x[14], 9, 0xC33707D6, g); // 26
-    ff(&mut c, d, a, b, x[3], 14, 0xF4D50D87, g); // 27
-    ff(&mut b, c, d, a, x[8], 20, 0x455A14ED, g); // 28
-    ff(&mut a, b, c, d, x[13], 5, 0xA9E3E905, g); // 29
-    ff(&mut d, a, b, c, x[2], 9, 0xFCEFA3F8, g); // 30
-    ff(&mut c, d, a, b, x[7], 14, 0x676F02D9, g); // 31
-    ff(&mut b, c, d, a, x[12], 20, 0x8D2A4C8A, g); // 32
+    round!(f, a, b, c, d, 0, 7, 0, x);
+    round!(f, d, a, b, c, 1, 12, 1, x);
+    round!(f, c, d, a, b, 2, 17, 2, x);
+    round!(f, b, c, d, a, 3, 22, 3, x);
 
-    ff(&mut a, b, c, d, x[5], 4, 0xFFFA3942, h); // 33
-    ff(&mut d, a, b, c, x[8], 11, 0x8771F681, h); // 34
-    ff(&mut c, d, a, b, x[11], 16, 0x6D9D6122, h); // 35
-    ff(&mut b, c, d, a, x[14], 23, 0xFDE5380C, h); // 36
-    ff(&mut a, b, c, d, x[1], 4, 0xA4BEEA44, h); // 37
-    ff(&mut d, a, b, c, x[4], 11, 0x4BDECFA9, h); // 38
-    ff(&mut c, d, a, b, x[7], 16, 0xF6BB4B60, h); // 39
-    ff(&mut b, c, d, a, x[10], 23, 0xBEBFBC70, h); // 40
-    ff(&mut a, b, c, d, x[13], 4, 0x289B7EC6, h); // 41
-    ff(&mut d, a, b, c, x[0], 11, 0xEAA127FA, h); // 42
-    ff(&mut c, d, a, b, x[3], 16, 0xD4EF3085, h); // 43
-    ff(&mut b, c, d, a, x[6], 23, 0x4881D05, h); // 44
-    ff(&mut a, b, c, d, x[9], 4, 0xD9D4D039, h); // 45
-    ff(&mut d, a, b, c, x[12], 11, 0xE6DB99E5, h); // 46
-    ff(&mut c, d, a, b, x[15], 16, 0x1FA27CF8, h); // 47
-    ff(&mut b, c, d, a, x[2], 23, 0xC4AC5665, h); // 48
+    round!(f, a, b, c, d, 4, 7, 4, x);
+    round!(f, d, a, b, c, 5, 12, 5, x);
+    round!(f, c, d, a, b, 6, 17, 6, x);
+    round!(f, b, c, d, a, 7, 22, 7, x);
 
-    ff(&mut a, b, c, d, x[0], 6, 0xF4292244, i); // 49
-    ff(&mut d, a, b, c, x[7], 10, 0x432AFF97, i); // 50
-    ff(&mut c, d, a, b, x[14], 15, 0xAB9423A7, i); // 51
-    ff(&mut b, c, d, a, x[5], 21, 0xFC93A039, i); // 52
-    ff(&mut a, b, c, d, x[12], 6, 0x655B59C3, i); // 53
-    ff(&mut d, a, b, c, x[3], 10, 0x8F0CCC92, i); // 54
-    ff(&mut c, d, a, b, x[10], 15, 0xFFEFF47D, i); // 55
-    ff(&mut b, c, d, a, x[1], 21, 0x85845DD1, i); // 56
-    ff(&mut a, b, c, d, x[8], 6, 0x6FA87E4F, i); // 57
-    ff(&mut d, a, b, c, x[15], 10, 0xFE2CE6E0, i); // 58
-    ff(&mut c, d, a, b, x[6], 15, 0xA3014314, i); // 59
-    ff(&mut b, c, d, a, x[13], 21, 0x4E0811A1, i); // 60
-    ff(&mut a, b, c, d, x[4], 6, 0xF7537E82, i); // 61
-    ff(&mut d, a, b, c, x[11], 10, 0xBD3AF235, i); // 62
-    ff(&mut c, d, a, b, x[2], 15, 0x2AD7D2BB, i); // 63
-    ff(&mut b, c, d, a, x[9], 21, 0xEB86D391, i); // 64
+    round!(f, a, b, c, d, 8, 7, 8, x);
+    round!(f, d, a, b, c, 9, 12, 9, x);
+    round!(f, c, d, a, b, 10, 17, 10, x);
+    round!(f, b, c, d, a, 11, 22, 11, x);
+
+    round!(f, a, b, c, d, 12, 7, 12, x);
+    round!(f, d, a, b, c, 13, 12, 13, x);
+    round!(f, c, d, a, b, 14, 17, 14, x);
+    round!(f, b, c, d, a, 15, 22, 15, x);
+
+    // G
+
+    round!(g, a, b, c, d, 1, 5, 16, x);
+    round!(g, d, a, b, c, 6, 9, 17, x);
+    round!(g, c, d, a, b, 11, 14, 18, x);
+    round!(g, b, c, d, a, 0, 20, 19, x);
+
+    round!(g, a, b, c, d, 5, 5, 20, x);
+    round!(g, d, a, b, c, 10, 9, 21, x);
+    round!(g, c, d, a, b, 15, 14, 22, x);
+    round!(g, b, c, d, a, 4, 20, 23, x);
+
+    round!(g, a, b, c, d, 9, 5, 24, x);
+    round!(g, d, a, b, c, 14, 9, 25, x);
+    round!(g, c, d, a, b, 3, 14, 26, x);
+    round!(g, b, c, d, a, 8, 20, 27, x);
+
+    round!(g, a, b, c, d, 13, 5, 28, x);
+    round!(g, d, a, b, c, 2, 9, 29, x);
+    round!(g, c, d, a, b, 7, 14, 30, x);
+    round!(g, b, c, d, a, 12, 20, 31, x);
+
+    // H
+
+    round!(h, a, b, c, d, 5, 4, 32, x);
+    round!(h, d, a, b, c, 8, 11, 33, x);
+    round!(h, c, d, a, b, 11, 16, 34, x);
+    round!(h, b, c, d, a, 14, 23, 35, x);
+
+    round!(h, a, b, c, d, 1, 4, 36, x);
+    round!(h, d, a, b, c, 4, 11, 37, x);
+    round!(h, c, d, a, b, 7, 16, 38, x);
+    round!(h, b, c, d, a, 10, 23, 39, x);
+
+    round!(h, a, b, c, d, 13, 4, 40, x);
+    round!(h, d, a, b, c, 0, 11, 41, x);
+    round!(h, c, d, a, b, 3, 16, 42, x);
+    round!(h, b, c, d, a, 6, 23, 43, x);
+
+    round!(h, a, b, c, d, 9, 4, 44, x);
+    round!(h, d, a, b, c, 12, 11, 45, x);
+    round!(h, c, d, a, b, 15, 16, 46, x);
+    round!(h, b, c, d, a, 2, 23, 47, x);
+
+    // I
+
+    round!(i, a, b, c, d, 0, 6, 48, x);
+    round!(i, d, a, b, c, 7, 10, 49, x);
+    round!(i, c, d, a, b, 14, 15, 50, x);
+    round!(i, b, c, d, a, 5, 21, 51, x);
+
+    round!(i, a, b, c, d, 12, 6, 52, x);
+    round!(i, d, a, b, c, 3, 10, 53, x);
+    round!(i, c, d, a, b, 10, 15, 54, x);
+    round!(i, b, c, d, a, 1, 21, 55, x);
+
+    round!(i, a, b, c, d, 8, 6, 56, x);
+    round!(i, d, a, b, c, 15, 10, 57, x);
+    round!(i, c, d, a, b, 6, 15, 58, x);
+    round!(i, b, c, d, a, 13, 21, 59, x);
+
+    round!(i, a, b, c, d, 4, 6, 60, x);
+    round!(i, d, a, b, c, 11, 10, 61, x);
+    round!(i, c, d, a, b, 2, 15, 62, x);
+    round!(i, b, c, d, a, 9, 21, 63, x);
 
     (a, b, c, d)
 }

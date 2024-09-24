@@ -31,6 +31,8 @@ impl MD5HasherState {
 impl HasherState for MD5HasherState {
     const BLOCK_SIZE: usize = 64;
 
+    const BIG_ENDIAN_LENGTH: bool = false;
+
     fn compress(&mut self, block: &[u8]) {
         let (a, b, c, d) = compress(block, self.0[0], self.0[1], self.0[2], self.0[3]);
 

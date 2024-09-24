@@ -10,13 +10,14 @@ use crate::hash::common::{zero_pad, BitLength, Block};
 pub(in crate::hash::common) fn pad<Length: BitLength, const SIZE: usize>(
     block: &mut Block<SIZE>,
     length: Length,
+    big_endian_length: bool,
 ) -> (&[u8], Option<u8>)
 where
     [u8; SIZE]: Sized,
     [u8; std::mem::size_of::<Length>()]: Sized,
 {
     if block.remaining() >= 1 + std::mem::size_of::<Length>() {
-        (zero_pad(block, length, 0x80), None)
+        (zero_pad(block, length, 0x80, big_endian_length), None)
     } else if block.remaining() >= 1 {
         block.push_byte(0x80);
         while block.remaining() > 0 {

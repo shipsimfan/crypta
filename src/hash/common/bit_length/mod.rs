@@ -11,4 +11,7 @@ pub(in crate::hash) trait BitLength: Sized + Clone + Copy {
 
     /// Convert the bit-length to big-endian ordered bytes
     fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()];
+
+    /// Convert the bit-length to little-endian ordered bytes
+    fn to_le_bytes(self) -> [u8; std::mem::size_of::<Self>()];
 }
