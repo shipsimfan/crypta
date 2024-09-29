@@ -1,5 +1,5 @@
 use crate::hash::{Hash, HashFunction};
-use std::ops::{Index, IndexMut, Range, RangeFrom, RangeFull, RangeTo};
+use core::ops::{Index, IndexMut, Range, RangeFrom, RangeFull, RangeTo};
 
 impl<H: HashFunction> Index<usize> for Hash<H>
 where

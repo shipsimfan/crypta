@@ -14,9 +14,9 @@ pub(in crate::hash::md5_like::common) fn pad<Length: BitLength, const SIZE: usiz
 ) -> (&[u8], Option<u8>)
 where
     [u8; SIZE]: Sized,
-    [u8; std::mem::size_of::<Length>()]: Sized,
+    [u8; core::mem::size_of::<Length>()]: Sized,
 {
-    if block.remaining() >= 1 + std::mem::size_of::<Length>() {
+    if block.remaining() >= 1 + core::mem::size_of::<Length>() {
         (zero_pad(block, length, 0x80, big_endian_length), None)
     } else if block.remaining() >= 1 {
         block.push_byte(0x80);

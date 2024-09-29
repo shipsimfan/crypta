@@ -8,7 +8,7 @@ mod push;
 pub(in crate::hash::md5_like) struct Hasher<State: HasherState, Length: BitLength>
 where
     [u8; State::BLOCK_SIZE]: Sized,
-    [u8; std::mem::size_of::<Length>()]: Sized,
+    [u8; core::mem::size_of::<Length>()]: Sized,
 {
     block: Block<{ State::BLOCK_SIZE }>,
     state: State,
@@ -18,7 +18,7 @@ where
 impl<State: HasherState, Length: BitLength> Hasher<State, Length>
 where
     [u8; State::BLOCK_SIZE]: Sized,
-    [u8; std::mem::size_of::<Length>()]: Sized,
+    [u8; core::mem::size_of::<Length>()]: Sized,
 {
     /// Compresses the current block using the state
     fn compress(&mut self) {

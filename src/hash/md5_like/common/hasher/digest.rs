@@ -3,7 +3,7 @@ use crate::hash::md5_like::common::{pad, zero_pad, BitLength, Hasher, HasherStat
 impl<State: HasherState, Length: BitLength> Hasher<State, Length>
 where
     [u8; State::BLOCK_SIZE]: Sized,
-    [u8; std::mem::size_of::<Length>()]: Sized,
+    [u8; core::mem::size_of::<Length>()]: Sized,
 {
     /// Finalizes the hash
     pub(in crate::hash::md5_like) fn digest(mut self) -> State {

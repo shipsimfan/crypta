@@ -3,7 +3,7 @@ use crate::hash::md5_like::common::{BitLength, Hasher, HasherState};
 impl<State: HasherState, Length: BitLength> Hasher<State, Length>
 where
     [u8; State::BLOCK_SIZE]: Sized,
-    [u8; std::mem::size_of::<Length>()]: Sized,
+    [u8; core::mem::size_of::<Length>()]: Sized,
 {
     /// Adds `bytes` to the hash
     pub(in crate::hash::md5_like) fn push_iter(&mut self, mut bytes: impl Iterator<Item = u8>) {

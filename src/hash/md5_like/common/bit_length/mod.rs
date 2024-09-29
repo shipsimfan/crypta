@@ -12,8 +12,8 @@ pub(in crate::hash::md5_like) trait BitLength:
     fn add_bytes(&mut self, count: usize);
 
     /// Convert the bit-length to big-endian ordered bytes
-    fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()];
+    fn to_be_bytes(self) -> [u8; core::mem::size_of::<Self>()];
 
     /// Convert the bit-length to little-endian ordered bytes
-    fn to_le_bytes(self) -> [u8; std::mem::size_of::<Self>()];
+    fn to_le_bytes(self) -> [u8; core::mem::size_of::<Self>()];
 }

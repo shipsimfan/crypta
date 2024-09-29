@@ -7,3 +7,9 @@ description = "Cryptography Library"
 repository = "https://github.com/shipsimfan/crypta"
 license = "GPL-3.0-or-later"
 publish = false
+
+[features]
+default = ["std"]
+
+alloc = []
+std = ["alloc"]

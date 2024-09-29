@@ -1,5 +1,5 @@
 use super::{LONG_K, SHORT_K};
-use std::{
+use core::{
     fmt::{Display, UpperHex},
     ops::{BitAnd, BitOr, BitXor, Not, Shr},
 };
@@ -24,7 +24,7 @@ pub(in crate::hash::md5_like::sha2) trait Word:
     const ZERO: Self;
 
     fn from_be_bytes(bytes: &[u8], index: usize) -> Self;
-    fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()];
+    fn to_be_bytes(self) -> [u8; core::mem::size_of::<Self>()];
 
     fn add(self, other: Self) -> Self;
 
@@ -70,7 +70,7 @@ impl Word for u32 {
         ])
     }
 
-    fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()] {
+    fn to_be_bytes(self) -> [u8; core::mem::size_of::<Self>()] {
         self.to_be_bytes()
     }
 
@@ -120,7 +120,7 @@ impl Word for u64 {
         ])
     }
 
-    fn to_be_bytes(self) -> [u8; std::mem::size_of::<Self>()] {
+    fn to_be_bytes(self) -> [u8; core::mem::size_of::<Self>()] {
         self.to_be_bytes()
     }
 

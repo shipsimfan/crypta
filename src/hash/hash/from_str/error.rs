@@ -11,10 +11,10 @@ pub enum ParseHashError {
     TooLong,
 }
 
-impl std::error::Error for ParseHashError {}
+impl core::error::Error for ParseHashError {}
 
-impl std::fmt::Display for ParseHashError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl core::fmt::Display for ParseHashError {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
             ParseHashError::TooShort => write!(f, "hash is too short"),
             ParseHashError::InvalidHex => {

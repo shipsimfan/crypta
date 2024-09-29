@@ -12,16 +12,16 @@ pub(in crate::hash::md5_like::common) fn zero_pad<Length: BitLength, const SIZE:
 ) -> &[u8]
 where
     [u8; SIZE]: Sized,
-    [u8; std::mem::size_of::<Length>()]: Sized,
+    [u8; core::mem::size_of::<Length>()]: Sized,
 {
     // Make sure the block is long enough
-    debug_assert!(block.remaining() >= 1 + std::mem::size_of::<Length>());
+    debug_assert!(block.remaining() >= 1 + core::mem::size_of::<Length>());
 
     // Push the first padding byte
     block.push_byte(first_byte);
 
     // Push zeros until near the end
-    while block.remaining() > std::mem::size_of::<Length>() {
+    while block.remaining() > core::mem::size_of::<Length>() {
         block.push_byte(0);
     }
 

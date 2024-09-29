@@ -1,5 +1,5 @@
 use crate::hash::{Hash, HashFunction};
-use std::str::FromStr;
+use core::str::FromStr;
 
 mod error;
 
@@ -37,13 +37,14 @@ where
     }
 }
 
-impl<H: HashFunction> TryFrom<String> for Hash<H>
+#[cfg(feature = "alloc")]
+impl<H: HashFunction> TryFrom<alloc::string::String> for Hash<H>
 where
     [u8; H::BYTE_SIZE]: Sized,
 {
     type Error = ParseHashError;
 
-    fn try_from(value: String) -> Result<Self, Self::Error> {
+    fn try_from(value: alloc::string::String) -> Result<Self, Self::Error> {
         value.parse()
     }
 }

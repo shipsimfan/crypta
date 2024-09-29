@@ -1,5 +1,5 @@
 use crate::hash::{Hash, HashFunction};
-use std::ops::{Deref, DerefMut};
+use core::ops::{Deref, DerefMut};
 
 impl<H: HashFunction> Deref for Hash<H>
 where

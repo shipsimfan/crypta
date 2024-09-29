@@ -18,13 +18,14 @@ where
     /// Unwraps the state to the contained hash
     pub(in crate::hash::md5_like::sha2) fn unwrap<const COUNT: usize>(
         self,
-    ) -> [u8; COUNT * std::mem::size_of::<W>()] {
-        let mut output = [0; COUNT * std::mem::size_of::<W>()];
+    ) -> [u8; COUNT * core::mem::size_of::<W>()] {
+        let mut output = [0; COUNT * core::mem::size_of::<W>()];
 
         for i in 0..COUNT {
-            let base = i * std::mem::size_of::<W>();
+            let base = i * core::mem::size_of::<W>();
 
-            output[base..base + std::mem::size_of::<W>()].copy_from_slice(&self.0[i].to_be_bytes());
+            output[base..base + core::mem::size_of::<W>()]
+                .copy_from_slice(&self.0[i].to_be_bytes());
         }
 
         output
