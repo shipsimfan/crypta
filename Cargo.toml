@@ -1,12 +1,29 @@
-[package]
-name = "crypta"
+[workspace]
+default-members = [".", "cli"]
+
+members = [".", "cli"]
+
+[workspace.package]
 version = "0.1.0"
 authors = ["Lance Hart<me@lancehart.ca>"]
 edition = "2021"
-description = "Cryptography Library"
 repository = "https://github.com/shipsimfan/crypta"
 license = "GPL-3.0-or-later"
 publish = false
+
+[workspace.dependencies]
+crypta.path = "."
+
+[package]
+name = "crypta"
+description = "Cryptography Library"
+
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+repository.workspace = true
+license.workspace = true
+publish.workspace = true
 
 [features]
 default = ["std"]
