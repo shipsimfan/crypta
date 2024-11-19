@@ -5,7 +5,7 @@ version = 4
 [[package]]
 name = "argparse"
 version = "0.4.0"
-source = "git+https://github.com/shipsimfan/lib-argparse#8ef8555ec465edc4a099e84bbd131efbb7f0dec3"
+source = "git+https://github.com/shipsimfan/lib-argparse#23b4c4e827145eb7b70e9feb66a54508d731c6fb"
 dependencies = [
  "i18n",
  "macros",
@@ -68,7 +68,7 @@ dependencies = [
 [[package]]
 name = "macros"
 version = "0.4.0"
-source = "git+https://github.com/shipsimfan/lib-argparse#8ef8555ec465edc4a099e84bbd131efbb7f0dec3"
+source = "git+https://github.com/shipsimfan/lib-argparse#23b4c4e827145eb7b70e9feb66a54508d731c6fb"
 dependencies = [
  "proc-macro-util",
 ]
