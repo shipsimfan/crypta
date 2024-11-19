@@ -1,6 +1,9 @@
 use super::HashAlgorithm;
 use argparse::{Argument, Error, Positional, PositionalInfo, PositionalResult};
 
+#[derive(Debug)]
+struct UnknownHashAlgorithm(String);
+
 impl Positional for HashAlgorithm {
     fn parse(
         this: &mut Option<Self>,
@@ -21,12 +24,20 @@ impl Positional for HashAlgorithm {
                 _ => {
                     return PositionalResult::Error(Error::invalid_positional_value(
                         info.value,
-                        todo!(),
+                        UnknownHashAlgorithm(argument.to_string()),
                     ));
                 }
             },
         );
 
         PositionalResult::Next
+    }
+}
+
+impl std::error::Error for UnknownHashAlgorithm {}
+
+impl std::fmt::Display for UnknownHashAlgorithm {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "unknown hash algorithm \"{}\"", self.0)
     }
 }

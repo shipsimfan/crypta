@@ -3,6 +3,8 @@ use hash::HashCommand;
 
 mod hash;
 
+mod execute;
+
 /// The requested command to be run
 pub enum Command {
     /// Hash input files with a specified hash algorithm

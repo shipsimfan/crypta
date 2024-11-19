@@ -7,6 +7,8 @@ use std::{num::NonZeroUsize, path::PathBuf};
 
 mod algorithm;
 
+mod execute;
+
 /// Hash files using a given algorithm
 pub struct HashCommand {
     /// The algorithm to use when hashing
@@ -35,9 +37,9 @@ impl Command for HashCommand {
         };
 
         const COUNT_INFO: &FlagInfo<NonZeroUsize> = &FlagInfo {
-            long_name: Some("count"),
-            short_name: Some("c"),
-            value: None,
+            long_name: Some("--count"),
+            short_name: Some("-c"),
+            value: Some("COUNT"),
             min_count: 0,
             max_count: 0,
             default: Some(|| unsafe { NonZeroUsize::new_unchecked(1) }),

@@ -1,3 +1,5 @@
+use argparse::Command;
+
 mod command;
 
 fn main() {
@@ -8,5 +10,9 @@ fn main() {
 }
 
 fn run() -> Result<(), Box<dyn std::error::Error>> {
+    let command = command::Command::parse_env()?;
+
+    command.execute();
+
     Ok(())
 }

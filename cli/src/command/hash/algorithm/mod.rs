@@ -1,3 +1,4 @@
+mod display;
 mod positional;
 
 /// A selected algorithm to hash data with
