@@ -1,8 +1,5 @@
 use algorithm::HashAlgorithm;
-use argparse::{
-    ArgumentSource, Command, Error, Flag, FlagInfo, Positional, PositionalInfo, PositionalResult,
-    Result,
-};
+use argparse::Command;
 use std::{num::NonZeroUsize, path::PathBuf};
 
 mod algorithm;
@@ -10,6 +7,7 @@ mod algorithm;
 mod execute;
 
 /// Hash files using a given algorithm
+#[derive(Command)]
 pub struct HashCommand {
     /// The algorithm to use when hashing
     algorithm: HashAlgorithm,
@@ -18,9 +16,11 @@ pub struct HashCommand {
     files: Vec<PathBuf>,
 
     /// The number of times to read the input files into the hash
+    #[flag]
     count: NonZeroUsize,
 }
 
+/*
 impl Command for HashCommand {
     fn parse(source: &mut dyn ArgumentSource) -> Result<Self> {
         const ALGORITHM_INFO: &PositionalInfo<HashAlgorithm> = &PositionalInfo {
@@ -84,7 +84,15 @@ impl Command for HashCommand {
             match result {
                 PositionalResult::Continue => {}
                 PositionalResult::Next => current_positional += 1,
-                PositionalResult::Sub => todo!(),
+                PositionalResult::Sub => {
+                    match current_positional {
+                        0 => Positional::sub(&mut algorithm, source),
+                        1 => Positional::sub(&mut files, source),
+                        _ => unreachable!(),
+                    }?;
+
+                    break;
+                }
                 PositionalResult::Error(error) => return Err(error),
             };
         }
@@ -101,3 +109,4 @@ impl Command for HashCommand {
         })
     }
 }
+*/

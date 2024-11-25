@@ -5,7 +5,6 @@ version = 4
 [[package]]
 name = "argparse"
 version = "0.4.0"
-source = "git+https://github.com/shipsimfan/lib-argparse#23b4c4e827145eb7b70e9feb66a54508d731c6fb"
 dependencies = [
  "i18n",
  "macros",
@@ -68,7 +67,6 @@ dependencies = [
 [[package]]
 name = "macros"
 version = "0.4.0"
-source = "git+https://github.com/shipsimfan/lib-argparse#23b4c4e827145eb7b70e9feb66a54508d731c6fb"
 dependencies = [
  "proc-macro-util",
 ]
@@ -76,7 +74,7 @@ dependencies = [
 [[package]]
 name = "proc-macro-util"
 version = "0.1.0"
-source = "git+https://github.com/shipsimfan/lib-proc-macro-util#851d3f54967b7458c11e3b9fb96b8d1c1f6cf8ee"
+source = "git+https://github.com/shipsimfan/lib-proc-macro-util#524e30faffe86d9841a0b9297ff74ce48bf71a09"
 dependencies = [
  "proc-macro-util-base",
  "proc-macro-util-macros",
@@ -85,7 +83,7 @@ dependencies = [
 [[package]]
 name = "proc-macro-util-base"
 version = "0.1.0"
-source = "git+https://github.com/shipsimfan/lib-proc-macro-util#851d3f54967b7458c11e3b9fb96b8d1c1f6cf8ee"
+source = "git+https://github.com/shipsimfan/lib-proc-macro-util#524e30faffe86d9841a0b9297ff74ce48bf71a09"
 dependencies = [
  "i18n-translation",
 ]
@@ -93,7 +91,7 @@ dependencies = [
 [[package]]
 name = "proc-macro-util-macros"
 version = "0.1.0"
-source = "git+https://github.com/shipsimfan/lib-proc-macro-util#851d3f54967b7458c11e3b9fb96b8d1c1f6cf8ee"
+source = "git+https://github.com/shipsimfan/lib-proc-macro-util#524e30faffe86d9841a0b9297ff74ce48bf71a09"
 dependencies = [
  "i18n-translation",
  "proc-macro-util-base",
@@ -102,4 +100,4 @@ dependencies = [
 [[package]]
 name = "win32"
 version = "0.1.0"
-source = "git+https://github.com/shipsimfan/lib-win32#1db71261095f20b7f8dc26d4f2bf083d4dffcb35"
+source = "git+https://github.com/shipsimfan/lib-win32#5a02e6e46a5a4d750527c553f2747d375f48a7cf"
