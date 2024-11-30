@@ -16,4 +16,4 @@ path = "src/main.rs"
 [dependencies]
 crypta.workspace = true
 
-argparse.path = "../../lib-argparse" #.git = "https://github.com/shipsimfan/lib-argparse"
+argparse.git = "https://github.com/shipsimfan/lib-argparse"

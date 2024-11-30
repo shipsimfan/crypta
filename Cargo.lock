@@ -5,6 +5,7 @@ version = 4
 [[package]]
 name = "argparse"
 version = "0.4.0"
+source = "git+https://github.com/shipsimfan/lib-argparse#9a5f62bd8e5943cd40ff88e9cdbf80da4ffe053e"
 dependencies = [
  "i18n",
  "macros",
@@ -25,7 +26,7 @@ dependencies = [
 [[package]]
 name = "i18n"
 version = "0.1.0"
-source = "git+https://github.com/shipsimfan/lib-i18n#481851a2ff9bddffacee4700f32a9916acd2f44c"
+source = "git+https://github.com/shipsimfan/lib-i18n#501d560030dbe715c75cd3c56baf53fb2c751441"
 dependencies = [
  "i18n-fluent",
  "i18n-fluent-macro",
@@ -36,12 +37,12 @@ dependencies = [
 [[package]]
 name = "i18n-fluent"
 version = "0.1.0"
-source = "git+https://github.com/shipsimfan/lib-i18n#481851a2ff9bddffacee4700f32a9916acd2f44c"
+source = "git+https://github.com/shipsimfan/lib-i18n#501d560030dbe715c75cd3c56baf53fb2c751441"
 
 [[package]]
 name = "i18n-fluent-macro"
 version = "0.1.0"
-source = "git+https://github.com/shipsimfan/lib-i18n#481851a2ff9bddffacee4700f32a9916acd2f44c"
+source = "git+https://github.com/shipsimfan/lib-i18n#501d560030dbe715c75cd3c56baf53fb2c751441"
 dependencies = [
  "i18n-fluent",
  "i18n-locale",
@@ -51,7 +52,7 @@ dependencies = [
 [[package]]
 name = "i18n-locale"
 version = "0.1.0"
-source = "git+https://github.com/shipsimfan/lib-i18n#481851a2ff9bddffacee4700f32a9916acd2f44c"
+source = "git+https://github.com/shipsimfan/lib-i18n#501d560030dbe715c75cd3c56baf53fb2c751441"
 dependencies = [
  "win32",
 ]
@@ -59,7 +60,7 @@ dependencies = [
 [[package]]
 name = "i18n-translation"
 version = "0.1.0"
-source = "git+https://github.com/shipsimfan/lib-i18n#481851a2ff9bddffacee4700f32a9916acd2f44c"
+source = "git+https://github.com/shipsimfan/lib-i18n#501d560030dbe715c75cd3c56baf53fb2c751441"
 dependencies = [
  "i18n-locale",
 ]
@@ -67,14 +68,16 @@ dependencies = [
 [[package]]
 name = "macros"
 version = "0.4.0"
+source = "git+https://github.com/shipsimfan/lib-argparse#9a5f62bd8e5943cd40ff88e9cdbf80da4ffe053e"
 dependencies = [
+ "i18n",
  "proc-macro-util",
 ]
 
 [[package]]
 name = "proc-macro-util"
 version = "0.1.0"
-source = "git+https://github.com/shipsimfan/lib-proc-macro-util#524e30faffe86d9841a0b9297ff74ce48bf71a09"
+source = "git+https://github.com/shipsimfan/lib-proc-macro-util#d5278ec909ee949034c145c793a1f0616c012b0c"
 dependencies = [
  "proc-macro-util-base",
  "proc-macro-util-macros",
@@ -83,7 +86,7 @@ dependencies = [
 [[package]]
 name = "proc-macro-util-base"
 version = "0.1.0"
-source = "git+https://github.com/shipsimfan/lib-proc-macro-util#524e30faffe86d9841a0b9297ff74ce48bf71a09"
+source = "git+https://github.com/shipsimfan/lib-proc-macro-util#d5278ec909ee949034c145c793a1f0616c012b0c"
 dependencies = [
  "i18n-translation",
 ]
@@ -91,7 +94,7 @@ dependencies = [
 [[package]]
 name = "proc-macro-util-macros"
 version = "0.1.0"
-source = "git+https://github.com/shipsimfan/lib-proc-macro-util#524e30faffe86d9841a0b9297ff74ce48bf71a09"
+source = "git+https://github.com/shipsimfan/lib-proc-macro-util#d5278ec909ee949034c145c793a1f0616c012b0c"
 dependencies = [
  "i18n-translation",
  "proc-macro-util-base",
