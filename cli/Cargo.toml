@@ -17,3 +17,4 @@ path = "src/main.rs"
 crypta.workspace = true
 
 argparse.git = "https://github.com/shipsimfan/lib-argparse"
+i18n.git = "https://github.com/shipsimfan/lib-i18n"

@@ -1,0 +1,1 @@
+OpenFileError = unable to open "{ $path }" - { $error }

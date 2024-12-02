@@ -39,7 +39,6 @@
 
 # Non-core tasks
  1. Add `lib-data-format` feature with `Serialize` and `Deserialize` implementations
- 2. Add tool executable
- 3. Split SHA-2 into SHA-256 (224/256) and SHA-512 (384/512)
+ 2. Split SHA-2 into SHA-256 (224/256) and SHA-512 (384/512)
    1. Optimize SHA-1 with x86 processor instructions
    2. Optimize SHA-2 with x86 processor instructions
