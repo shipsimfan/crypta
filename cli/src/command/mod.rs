@@ -12,13 +12,13 @@ pub enum Command {
 }
 
 impl argparse::Command for Command {
-    fn parse(source: &mut dyn argparse::ArgumentSource) -> argparse::Result<Self> {
+    fn parse(source: &mut dyn argparse::ArgumentSource) -> argparse::Result<Option<Self>> {
         let argument = source
             .next()
             .ok_or(Error::missing_positional_value("COMMAND"))?;
 
         match argument.as_str()? {
-            "hash" => HashCommand::parse(source).map(Command::Hash),
+            "hash" => HashCommand::parse(source).map(|command| command.map(Command::Hash)),
             _ => Err(Error::unknown_argument(argument.to_string())),
         }
     }

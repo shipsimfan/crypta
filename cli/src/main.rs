@@ -17,7 +17,10 @@ fn main() {
 }
 
 fn run() -> Result<(), Box<dyn std::error::Error>> {
-    let command = command::Command::parse_env()?;
+    let command = match command::Command::parse_env()? {
+        Some(command) => command,
+        None => return Ok(()),
+    };
 
     command.execute()?;
 
