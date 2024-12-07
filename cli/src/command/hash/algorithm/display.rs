@@ -12,3 +12,11 @@ impl std::fmt::Display for HashAlgorithm {
         })
     }
 }
+
+impl argparse::DefaultDisplay for HashAlgorithm {
+    type Display<'a> = &'a Self;
+
+    fn as_display<'a>(&'a self) -> Self::Display<'a> {
+        self
+    }
+}
