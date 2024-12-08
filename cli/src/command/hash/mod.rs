@@ -8,7 +8,7 @@ mod execute;
 
 /// Hash files using a given algorithm
 #[derive(Command)]
-#[command(version)]
+#[command(version, help)]
 pub struct HashCommand {
     /// The algorithm to use when hashing
     algorithm: HashAlgorithm,
